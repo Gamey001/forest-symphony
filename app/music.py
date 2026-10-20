@@ -45,3 +45,35 @@ def note_to_hz(note: str) -> float:
 
 def snap_beats(beats: float) -> float:
     return min(ALLOWED_BEATS, key=lambda allowed: abs(allowed - beats))
+
+
+# Semitone steps of each scale above its home note.
+SCALES = {"major": (0, 2, 4, 5, 7, 9, 11), "minor": (0, 2, 3, 5, 7, 8, 10)}
+
+
+def detect_key(notes: list[tuple[int, float]]) -> tuple[int, str]:
+    """Pick the key whose scale covers the most note time. `notes` is (midi, beats) pairs.
+
+    Returns (home pitch class 0-11, "major" | "minor"). Ties favour major keys.
+    """
+    best, best_score = (0, "major"), -1.0
+    for mode, steps in SCALES.items():
+        for tonic in range(12):
+            scale = {(tonic + s) % 12 for s in steps}
+            score = sum(beats for midi, beats in notes if midi % 12 in scale)
+            if score > best_score:
+                best, best_score = (tonic, mode), score
+    return best
+
+
+def key_name(tonic: int, mode: str) -> str:
+    return f"{NOTE_NAMES[tonic]} {mode}"
+
+
+def snap_to_key(midi: int, tonic: int, mode: str) -> int:
+    """Move a note to the nearest note of the key (ties go down a semitone)."""
+    scale = {(tonic + s) % 12 for s in SCALES[mode]}
+    for offset in (0, -1, 1):
+        if (midi + offset) % 12 in scale:
+            return midi + offset
+    return midi
