@@ -23,7 +23,7 @@ class Settings(BaseSettings):
 
     # Cleanup: wind lives below ~1 kHz, birdsong mostly above it.
     highpass_hz: float = 250.0
-    silence_threshold_db: float = -35.0
+    silence_threshold_db: float = -20.0
 
     # BirdNET: random noise can score ~0.45, so we require more than that.
     min_bird_confidence: float = 0.5

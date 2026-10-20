@@ -1,8 +1,8 @@
 """Cleans an outdoor recording: removes wind rumble, steady hiss and stretches of dead air."""
 
 import numpy as np
-import noisereduce as nr
-from scipy.signal import butter, sosfiltfilt
+from scipy.ndimage import uniform_filter
+from scipy.signal import butter, istft, sosfiltfilt, stft
 
 from app.audio.loader import AudioClip
 from app.errors import AudioTooQuietError
@@ -11,6 +11,9 @@ FRAME_S = 0.02
 PADDING_S = 0.1  # keep a little audio around each sound so chirps aren't clipped
 MIN_ACTIVE_S = 0.3
 ABSOLUTE_FLOOR_DB = -60.0  # anything quieter than this is effectively silence
+NOISE_PERCENTILE = 30  # a band's background level = how loud it is 30% of the time
+GATE_FACTOR = 2.0  # sounds must be twice (+6 dB) the background level to pass
+NOISE_GAIN = 0.2  # background is turned down to 20%, not muted, so it sounds natural
 
 
 def remove_wind(clip: AudioClip, cutoff_hz: float) -> AudioClip:
@@ -19,19 +22,35 @@ def remove_wind(clip: AudioClip, cutoff_hz: float) -> AudioClip:
     return AudioClip(sosfiltfilt(sos, clip.samples).astype(np.float32), clip.sample_rate)
 
 
-def reduce_hiss(clip: AudioClip) -> AudioClip:
-    """Subtract the steady background noise (stream, insects, mic hiss)."""
-    cleaned = nr.reduce_noise(
-        y=clip.samples, sr=clip.sample_rate, stationary=True, prop_decrease=0.8
-    )
-    return AudioClip(cleaned.astype(np.float32), clip.sample_rate)
+def _frames(samples: np.ndarray, frame_len: int) -> np.ndarray:
+    n_frames = len(samples) // frame_len
+    return samples[: n_frames * frame_len].reshape(n_frames, frame_len)
 
 
 def _frame_levels_db(samples: np.ndarray, frame_len: int) -> np.ndarray:
-    n_frames = len(samples) // frame_len
-    frames = samples[: n_frames * frame_len].reshape(n_frames, frame_len)
-    rms = np.sqrt(np.mean(frames**2, axis=1))
+    rms = np.sqrt(np.mean(_frames(samples, frame_len) ** 2, axis=1))
     return 20 * np.log10(rms + 1e-10)
+
+
+def reduce_hiss(clip: AudioClip) -> AudioClip:
+    """Turn down steady background noise (stream, insects, mic hiss) with a spectral gate.
+
+    For every pitch band we learn its usual background level (a low percentile over time), then
+    keep only moments clearly louder than that. Calls that come and go, like owl hoots, survive;
+    sounds that never stop are treated as background.
+    """
+    nperseg = 1024
+    _, _, spec = stft(clip.samples, fs=clip.sample_rate, nperseg=nperseg)
+    magnitude = np.abs(spec)
+    noise_floor = np.percentile(magnitude, NOISE_PERCENTILE, axis=1, keepdims=True)
+
+    keep = (magnitude > noise_floor * GATE_FACTOR).astype(float)
+    # Smooth the on/off decision so the gate doesn't produce warbling artefacts.
+    keep = uniform_filter(keep, size=(3, 5))
+    gain = NOISE_GAIN + (1 - NOISE_GAIN) * keep
+
+    _, cleaned = istft(spec * gain, fs=clip.sample_rate, nperseg=nperseg)
+    return AudioClip(cleaned[: len(clip.samples)].astype(np.float32), clip.sample_rate)
 
 
 def trim_silence(clip: AudioClip, threshold_db: float) -> AudioClip:
