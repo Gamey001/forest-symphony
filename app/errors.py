@@ -34,3 +34,8 @@ class NoMelodyFoundError(SymphonyError):
 class SampleNotFoundError(SymphonyError):
     code = "sample_not_found"
     status_code = 404
+
+
+class OutputNotFoundError(SymphonyError):
+    code = "output_not_found"
+    status_code = 404
