@@ -89,6 +89,12 @@ def _fold_into_range(midi: int) -> int:
     return midi
 
 
+def _typical_range(hz: np.ndarray) -> tuple[float, float]:
+    """5th to 95th percentile, so a few stray readings don't exaggerate the bird's range."""
+    lo, hi = np.percentile(hz, [5, 95])
+    return round(float(lo), 1), round(float(hi), 1)
+
+
 def build_draft(contour: PitchContour, title: str) -> Draft:
     sung = segment_notes(contour)[:MAX_NOTES]
     if len(sung) < MIN_NOTES:
@@ -125,7 +131,7 @@ def build_draft(contour: PitchContour, title: str) -> Draft:
     return Draft(
         melody=Melody(notes=events, tempo_bpm=DRAFT_TEMPO_BPM, title=title),
         octave_shift=octave_shift,
-        pitch_range_hz=(round(float(contour.hz.min()), 1), round(float(contour.hz.max()), 1)),
+        pitch_range_hz=_typical_range(contour.hz),
         tonic=tonic,
         mode=mode,
     )
