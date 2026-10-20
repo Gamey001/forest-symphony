@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Forest Symphony</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top">
+    <div>
+      <h1>The Forest Symphony</h1>
+      <p class="tagline">Turn a bird's song into a melody you can keep. Runs fully offline.</p>
+    </div>
+    <span id="composer-status" class="pill">Checking AI composer…</span>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2>1. Capture a bird</h2>
+      <div class="capture">
+        <button id="record-btn" class="btn primary">● Record</button>
+        <span id="record-timer" class="muted" aria-live="polite"></span>
+        <label class="btn secondary">
+          Upload audio
+          <input id="upload-input" type="file" accept="audio/*" hidden>
+        </label>
+      </div>
+      <p class="muted small">Recording stops automatically after 15 seconds. Get as close to the bird as you can.</p>
+
+      <h3>…or try a forest recording</h3>
+      <ul id="sample-list" class="samples"></ul>
+    </section>
+
+    <section id="working" class="panel hidden" aria-live="polite">
+      <div class="spinner" aria-hidden="true"></div>
+      <p>Cleaning the audio, identifying the bird and composing your melody…</p>
+    </section>
+
+    <section id="error" class="panel error hidden" role="alert">
+      <h2>Hmm, no melody this time</h2>
+      <p id="error-message"></p>
+    </section>
+
+    <section id="result" class="panel result hidden">
+      <h2>2. Your forest symphony</h2>
+      <div class="species">
+        <div>
+          <p class="species-name" id="species-name"></p>
+          <p class="muted" id="species-sci"></p>
+        </div>
+        <span class="pill" id="species-confidence"></span>
+      </div>
+
+      <dl id="facts" class="facts"></dl>
+
+      <div class="melody">
+        <h3 id="melody-title"></h3>
+        <audio id="player" controls></audio>
+        <a id="download" class="btn primary" download>⬇ Download WAV</a>
+        <p class="muted small" id="composer-note"></p>
+        <p class="muted small" id="pitch-note"></p>
+        <div id="notes" class="notes" aria-label="Melody notes"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="muted small" id="credits"></footer>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>

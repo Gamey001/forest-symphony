@@ -1,0 +1,62 @@
+{
+  "Turdus migratorius": {
+    "habitat": "Lawns, gardens, parks and open woodland across North America.",
+    "song": "A cheerful, liquid carol of short rising and falling phrases, often written as \"cheerily, cheer-up, cheerio\".",
+    "fun_fact": "Robins are often among the first birds singing before dawn, and they hunt earthworms largely by sight."
+  },
+  "Strix aluco": {
+    "habitat": "Deciduous and mixed woodland, parks and large gardens across Europe and western Asia.",
+    "song": "The male gives a long, quavering hoot; the female answers with a sharp \"ke-wick\".",
+    "fun_fact": "The classic \"twit-twoo\" is usually two owls calling: one \"ke-wick\" and another hooting in reply."
+  },
+  "Erithacus rubecula": {
+    "habitat": "Woodland, hedgerows, parks and gardens across Europe.",
+    "song": "A sweet, wistful warble of varied phrases, sung through autumn and winter as well as spring.",
+    "fun_fact": "Both males and females sing to defend winter territories, and robins near street lights often sing at night."
+  },
+  "Turdus merula": {
+    "habitat": "Woodland, farmland, parks and gardens across Europe; introduced to Australia and New Zealand.",
+    "song": "A slow, rich, fluting song made of relaxed, varied phrases.",
+    "fun_fact": "Males often sing from rooftops and treetops at dawn and dusk."
+  },
+  "Turdus philomelos": {
+    "habitat": "Woodland, hedgerows, parks and gardens across Europe.",
+    "song": "Loud, clear phrases, each usually repeated two to four times.",
+    "fun_fact": "Song thrushes smash snail shells against a favourite stone, called an anvil."
+  },
+  "Luscinia megarhynchos": {
+    "habitat": "Dense thickets and woodland undergrowth in Europe, North Africa and western Asia.",
+    "song": "A rich, varied song with deep \"jug-jug\" notes and long swelling whistles, often sung at night.",
+    "fun_fact": "The males heard singing at night are mostly unpaired, singing to attract a mate."
+  },
+  "Troglodytes troglodytes": {
+    "habitat": "Woodland undergrowth, hedges and gardens across Europe and parts of Asia.",
+    "song": "A fast, explosive cascade of trills and warbles.",
+    "fun_fact": "For its tiny size it is one of the loudest songbirds in Europe."
+  },
+  "Cardinalis cardinalis": {
+    "habitat": "Woodland edges, thickets and backyards in eastern North America and Mexico.",
+    "song": "Loud, clear whistles such as \"cheer, cheer, cheer\" or \"birdie, birdie, birdie\".",
+    "fun_fact": "Unlike many songbirds, female cardinals also sing, sometimes from the nest."
+  },
+  "Poecile atricapillus": {
+    "habitat": "Deciduous and mixed forests and backyards across northern North America.",
+    "song": "A clear, two-note whistle, \"fee-bee\", alongside the familiar \"chick-a-dee-dee-dee\" call.",
+    "fun_fact": "Adding more \"dee\" notes to its call can warn other birds of a more dangerous predator."
+  },
+  "Zenaida macroura": {
+    "habitat": "Open country, farmland and towns across North America.",
+    "song": "A soft, mournful \"coo-OO-oo, oo, oo\".",
+    "fun_fact": "The whistling sound on take-off comes from its wings, not its voice."
+  },
+  "Strix varia": {
+    "habitat": "Mature forests and swamps, often near water, in eastern North America and spreading west.",
+    "song": "A rhythmic hooting often written as \"Who cooks for you? Who cooks for you-all?\"",
+    "fun_fact": "Barred owls have dark brown eyes, unlike most North American owls, which have yellow eyes."
+  },
+  "Bubo virginianus": {
+    "habitat": "Almost every habitat across the Americas, from forests and deserts to cities.",
+    "song": "Deep, soft hoots in a steady rhythm, like \"hoo-h'HOO-hoo-hoo\".",
+    "fun_fact": "Its \"horns\" are tufts of feathers, not ears."
+  }
+}
